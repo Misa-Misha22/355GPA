@@ -1,7 +1,7 @@
 
 #include <iostream>
 using namespace std;
-#include //the SQL DB
+//#include //the SQL DB
 
 
 
@@ -29,9 +29,43 @@ void createMovie() {
     cin >> description;
     cin.ignore(); // Ignore newline character from previous input
 
+    // then insert into the table 
+
+    string insertStatementSQL = "INSERT INTO movie(name, yearReleased, runtime, description) VALUES (" + name + ", ", + yearReleased + ", " + runtime + "," + description + ");";
+
+    
 }
 
 void updateMovie(){
+    
+    //create var for user input
+    string userinput;
+
+    //do we update each individual? yes i think so 
+    cout << "What do you want to update:" << endl;
+    cout << "Name" << endl;
+    cout << "Description" << endl;
+    cout << "yearReleased" << endl;
+    cout << "runtime" << endl;
+
+    cin >> userinput;
+
+    if (userinput == "Name")
+    {
+
+    }
+    else if (userinput == "Description")
+    {
+
+    }
+    else if (userinput == "yearReleased")
+    {
+
+    }
+    else if (userinput == "runtime")
+    {
+
+    }
 
 }
 
@@ -63,7 +97,8 @@ int main()
 
     if (userinput == "Create")
     {
-
+        //call function createMovie within database 
+        createMovie()
     }
 
 
