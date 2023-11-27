@@ -1,2 +1,10 @@
 # 355GPA
 Group Programming Assignment
+Two notes:
+Do not use code from other classes. Start from scratch.
+Do not use an ORM.  If you don't know what one is, I don't see how you could use it.  If you do know, I'm not opposed to their use in general, just their use in this part of the project.
+In this part of the project you will interact with the database through the programming language of your choice. You are free to chose a new project if you wish.
+Each group member should produce 1 set of CRUD (Create Read Update Delete) code for tables with a relationship. CRUD refers to the concept not actual SQL CREATE statements. In other words, there should be a way for a person to create data (e.g. make a new user profile) into the database using your program, retrieve data (get a list of user profiles) from the database, update data (change a given profiles name) in the database, and delete data (remove a profile) from the database and this data should involve a relationship with some other data in the database. 
+For example, I might chose to program the CRUD for the user table.  In order to have meaningful CRUD I will also need to create a profile tablee and seed it with some sample profiles (but not create CRUD).  This will allow me to indicate which department the employee will work for as I am creating, reading, or updating the employee.  
+The program(s) you create should get their input from a user.  How that happens I leave largely up to you... c++ might do a cin >>, java might call a readline() function, etc... 
+Finally, research how to prevent SQL injection in your chosen language and be sure to prevent it in your programs.  Typically, this is accomplished either through sanitization or parameterization of user input.  The exact mechanics depend on the langage/library/driver/etc...
