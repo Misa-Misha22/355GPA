@@ -1,9 +1,8 @@
 
+
 #include <stdlib.h>
 #include <iostream>
-
 #include <mysql_connection.h>
-
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
@@ -13,7 +12,7 @@ using namespace std;
 
 //#include //the SQL DB
 sql::Connection *con;
-sql::PreparedStatement *prep_stmt
+sql::PreparedStatement *prep_stmt;
 
 // function to create a movie
 // the database will go into the createMovie function
@@ -45,7 +44,7 @@ void insertMovie() {
     
     prep_stmt->setString(1, name);
     prep_stmt->setInt(2, yearReleased);
-    prep_stmt->setInt(3, runtiime)
+    prep_stmt->setInt(3, runtime)
     prep_stmt->setString(4, description);
 
     prep_stmt->execute();
@@ -224,7 +223,7 @@ void readMovie(){
         }
 
         delete res;
-        delete pstmt;
+        delete prep_stmt;
         delete con;
 
         return 0;
@@ -270,7 +269,7 @@ int main()
     else if (userInput == "Read")
     {
         //call function readmovie within database
-        readMoive();
+        readMovie();
         return 0;
     }
     else if (userInput == "Update")
@@ -286,5 +285,5 @@ int main()
         return 0;
     }
 
-
+    return 0;
 }
