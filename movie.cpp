@@ -60,7 +60,7 @@ void insertMovie() {
 void updateMovie(){
     
     //create var for user input
-    string userinput;
+    string userInput;
     string newName;
     string newDscrip
     string movieId;
@@ -78,10 +78,10 @@ void updateMovie(){
     cout << "YearReleased" << endl;
     cout << "Runtime" << endl;
 
-    cin >> userinput;
+    cin >> userInput;
     cin.ignore();
 
-    if (userinput == "Name")
+    if (userInput == "Name")
     {
         cout << "ENTER NEW MOVIE NAME:" << endl;
         cin >> newName;
@@ -101,7 +101,7 @@ void updateMovie(){
         delete con;
 
     }
-    else if (userinput == "Description")
+    else if (userInput == "Description")
     {
         cout << "ENTER NEW MOVIE DESCRIPTION:" << endl;
         cin >> newDscrip;
@@ -120,7 +120,7 @@ void updateMovie(){
         delete prep_stmt;
         delete con;
     }
-    else if (userinput == "YearReleased")
+    else if (userInput == "YearReleased")
     {
         cout << "ENTER NEW MOVIE YEAR RELEASED:" << endl;
         cin >> newYear
@@ -139,7 +139,7 @@ void updateMovie(){
         delete prep_stmt;
         delete con;
     }
-    else if (userinput == "Runtime")
+    else if (userInput == "Runtime")
     {
         cout << "ENTER NEW MOVIE RUNTIME:" << endl;
         cin >> newRuntime;;
@@ -245,7 +245,7 @@ int main()
     cout << "Update" << endl;
     cout << "Delete" << endl;
 
-    cin >> userinput;
+    cin >> userInput;
 
     while ((userInput != "Insert") || (userInput != "Read") || (userInput != "Update") || (userInput != "Delete"))
     {
@@ -261,10 +261,29 @@ int main()
     }
 
 
-    if (userinput == "Insert")
+    if (userInput == "Insert")
     {
         //call function insertMovie within database 
-        insertMovie()
+        insertMovie();
+        return 0;
+    }
+    else if (userInput == "Read")
+    {
+        //call function readmovie within database
+        readMoive();
+        return 0;
+    }
+    else if (userInput == "Update")
+    {
+        //call function updatemovie within database
+        updateMovie();
+        return 0;
+    }
+    else if (userInput == "Delete")
+    {
+        //call function deleteMovie within database
+        deleteMovie();
+        return 0;
     }
 
 
