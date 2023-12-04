@@ -1,20 +1,25 @@
-
-#include <stdlib.h>
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string> 
+
+#include <mysql_driver.h>
 #include <mysql_connection.h>
+
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+#include <cppconn/prepared_statement.h>
 
-using namespace std;
 
-//#include //the SQL DB
+sql::Driver *_driver;
 sql::Connection *con;
 sql::PreparedStatement *prep_stmt;
+sql::ResultSet *res;
 
-// function to create a movie
-// the database will go into the createMovie function
+using namespace std;
+using namespace sql;
 
 void insertProfile() 
 {
@@ -30,17 +35,30 @@ void insertProfile()
     cin.ignore(); 
 
     // then insert into the table 
-    prep_stmt = con->PreparedStatement("INSERT INTO Profile(Name, AcctID) VALUES (?,?)");
-    
-    prep_stmt->setString(1, name);
-    prep_stmt->setString(2, acctID);
+    try
+        {
+            // driver = mysql:get_mysql_driver_instance();
+            _driver = get_driver_instance();
 
-    prep_stmt->execute();
+            // con = driver->connect()
+            con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
-    delete prep_stmt;
-    delete con;
+            con->setSchema("my_jamesm12_juul");
+        prep_stmt = con->prepareStatement("INSERT INTO Profile(Name, AcctID) VALUES (?,?)");
+            
+        prep_stmt->setString(1, name);
+        prep_stmt->setInt(2, acctID);
 
-    cout << "All done ᕙ(▀̿ĺ̯▀̿ ̿)ᕗ" << endl;
+        prep_stmt->execute();
+
+        delete prep_stmt;
+        //delete con;
+        }
+        catch (sql::SQLException &e)
+        {
+            cout << "SQLException: " << e.what() << endl;
+        }
+    cout << "Program has executed." << endl;
 
 }
 
@@ -72,19 +90,32 @@ void updateProfile()
         cin >> newName;
         cin.ignore();
 
+        try
+        {
+            // driver = mysql:get_mysql_driver_instance();
+            _driver = get_driver_instance();
+
+            // con = driver->connect()
+            con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+
+            con->setSchema("my_jamesm12_juul");
         // then insert into the table 
-        prep_stmt = con->PreparedStatement("UPDATE Profile SET Name = ? WHERE id = ?");
+        prep_stmt = con->prepareStatement("UPDATE Profile SET Name = ? WHERE id = ?");
         
         prep_stmt->setString(1, newName);
-        prep_stmt->setString(2, profileId);
+        prep_stmt->setInt(2, profileId);
 
         prep_stmt->execute();
 
         cout << "All done ᕙ(▀̿ĺ̯▀̿ ̿)ᕗ" << endl;
 
         delete prep_stmt;
-        delete con;
-
+        //delete con;
+        }
+        catch (sql::SQLException &e)
+        {
+            cout << "SQLException: " << e.what() << endl;
+        }
     }
     else if (userInput == "AcctID")
     {
@@ -92,18 +123,31 @@ void updateProfile()
         cin >> acctID;
         cin.ignore(); // Ignore newline character from previous input
 
-        // then insert into the table 
-        prep_stmt = con->PreparedStatement("UPDATE Profile SET AcctID = ? FROM Profile INNER JOIN user_account on Profile.AcctID = user_account.id AND Profile.id = ?");
+        try
+        {
+            // driver = mysql:get_mysql_driver_instance();
+            _driver = get_driver_instance();
+
+            // con = driver->connect()
+            con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+
+            con->setSchema("my_jamesm12_juul");
+        prep_stmt = con->prepareStatement("UPDATE Profile SET AcctID = ? FROM Profile INNER JOIN user_account on Profile.AcctID = user_account.id AND Profile.id = ?");
         
-        prep_stmt->setString(1, acctID);
-        prep_stmt->setString(2, profileId);
+        prep_stmt->setInt(1, acctID);
+        prep_stmt->setInt(2, profileId);
 
         prep_stmt->execute();
 
         cout << "All done ᕙ(▀̿ĺ̯▀̿ ̿)ᕗ" << endl;
 
         delete prep_stmt;
-        delete con;
+        //delete con;
+        }
+        catch (sql::SQLException &e)
+        {
+            cout << "SQLException: " << e.what() << endl;
+        }
     }
 
 }
@@ -119,9 +163,17 @@ void deleteProfile()
 
     cin.ignore();
 
-    // then insert into the table 
-    prep_stmt = con->PreparedStatement("DELETE ID FROM Profile WHERE id = ?");
-    prep_stmt->setString(1, profileID);
+    try
+    {
+        // driver = mysql:get_mysql_driver_instance();
+        _driver = get_driver_instance();
+
+        // con = driver->connect()
+        con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+
+        con->setSchema("my_jamesm12_juul");
+    prep_stmt = con->prepareStatement("DELETE ID FROM Profile WHERE id = ?");
+    prep_stmt->setInt(1, profileID);
     
     int rowsDeleted = prep_stmt->executeUpdate();
 
@@ -137,7 +189,12 @@ void deleteProfile()
     // are we deleting one by one? or row by row?
 
     delete prep_stmt;
-    delete con;
+    //delete con;
+        }
+    catch (sql::SQLException &e)
+    {
+        cout << "SQLException: " << e.what() << endl;
+    }
 }
 
 void readProfile()
@@ -151,35 +208,48 @@ void readProfile()
     cin >> profileID;
     cin.ignore(); // Ignore newline character from previous input
 
-        // then insert into the table 
-        prep_stmt = con->PreparedStatement("SELECT * FROM Profile WHERE id = ?");
-        
-        prep_stmt->setString(1, profileID);
-        
-        // ResultSet grabs the values that match the id
-        // executeQuery() executes the select statement and returns a result
-        sql::ResultSet *res = prep_stmt->executeQuery();
-
-        // we need a while loop to check the table for all variables and retreive them
-        while (res->next())
+        try
         {
-            
-            cout << "ID: " << res->getInt("id") << endl;
-            cout << "Name: " << res->getString("Name") << endl;
-            cout << "AcctID: " << res->getString("AcctID") << endl;
+        // driver = mysql:get_mysql_driver_instance();
+        _driver = get_driver_instance();
 
+        // con = driver->connect()
+        con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+
+        con->setSchema("my_jamesm12_juul");
+    prep_stmt = con->prepareStatement("SELECT * FROM Profile WHERE id = ?");
+    
+    prep_stmt->setInt(1, profileID);
+    
+    // ResultSet grabs the values that match the id
+    // executeQuery() executes the select statement and returns a result
+    sql::ResultSet *res = prep_stmt->executeQuery();
+
+    // we need a while loop to check the table for all variables and retreive them
+    while (res->next())
+    {
+        cout << "ID: " << res->getInt("id") << endl;
+        cout << "Name: " << res->getString("Name") << endl;
+        cout << "AcctID: " << res->getInt("AcctID") << endl;
+
+    }
+
+    delete res;
+    delete prep_stmt;
         }
-
-        delete res;
-        delete prep_stmt;
-        delete con;
+    //delete con;
+    catch (sql::SQLException &r)
+    {
+        //cout << "SQLException: " << e.what() << endl;
+        cout << "Possible Error.";
+    }
 }
 
 
 
 int main()
 {
-    //create a var for user input
+
     string userInput;
 
     // prompt the user for what they want to do
