@@ -107,7 +107,7 @@ void updateProfile()
 
         prep_stmt->execute();
 
-        cout << "All done ᕙ(▀̿ĺ̯▀̿ ̿)ᕗ" << endl;
+        cout << "Program has executed." << endl;
 
         delete prep_stmt;
         //delete con;
@@ -139,7 +139,7 @@ void updateProfile()
 
         prep_stmt->execute();
 
-        cout << "All done ᕙ(▀̿ĺ̯▀̿ ̿)ᕗ" << endl;
+        cout << "Program has executed." << endl;
 
         delete prep_stmt;
         //delete con;
@@ -172,21 +172,19 @@ void deleteProfile()
         con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
         con->setSchema("my_jamesm12_juul");
-    prep_stmt = con->prepareStatement("DELETE ID FROM Profile WHERE id = ?");
+    prep_stmt = con->prepareStatement("DELETE FROM Profile WHERE id = ?");
     prep_stmt->setInt(1, profileID);
     
     int rowsDeleted = prep_stmt->executeUpdate();
 
     if (rowsDeleted > 0) 
     {
-        cout << "All done ᕙ(▀̿ĺ̯▀̿ ̿)ᕗ" << endl;
+        cout << "Program has executed." << endl;
     }
     else 
     {
         cout << "No files deleted (ↁ_ↁ)" << endl;
     }
-
-    // are we deleting one by one? or row by row?
 
     delete prep_stmt;
     //delete con;
@@ -208,8 +206,8 @@ void readProfile()
     cin >> profileID;
     cin.ignore(); // Ignore newline character from previous input
 
-        try
-        {
+    try
+    {
         // driver = mysql:get_mysql_driver_instance();
         _driver = get_driver_instance();
 
@@ -236,8 +234,8 @@ void readProfile()
 
     delete res;
     delete prep_stmt;
-        }
     //delete con;
+    }
     catch (sql::SQLException &r)
     {
         //cout << "SQLException: " << e.what() << endl;
