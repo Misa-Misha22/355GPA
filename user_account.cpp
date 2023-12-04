@@ -146,7 +146,7 @@ int main(){
                 delete res;
                 delete prep_stmt;
             }
-            catch (sql::SQLException &r)
+            catch (sql::SQLException &e)
             {
                 //cout << "SQLException: " << e.what() << endl;
                 cout << "Possible Error.";
