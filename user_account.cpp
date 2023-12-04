@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string> 
 
 #include <mysql_driver.h>
 #include <mysql_connection.h>
@@ -25,7 +26,7 @@ int main(){
     sql::ResultSet *res;
 
     string operation;
-    cout << "What operation would you like to perform? Create, Update, Read, or Delete?";
+    cout << "What operation would you like to perform? Create, Update, Read, or Delete? ";
     cin >> operation;
 
     // CREATE or insert
@@ -34,15 +35,14 @@ int main(){
         try
         {
             // driver = mysql:get_mysql_driver_instance();
-            driver = get_driver_instance();
+            _driver = get_driver_instance();
 
             // con = driver->connect()
-            con = driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+            con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
             con->setSchema("my_jamesm12_juul");
 
-        prep_stmt = con->prepareStatement("INSERT INTO user_account(email, FirstName, LastName,
-        Phone, StreetAddress, City, State, Zip, Salt, Hash ) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        prep_stmt = con->prepareStatement("INSERT INTO user_account(email, FirstName, LastName, Phone, StreetAddress, City, State, Zip, Salt, Hash ) VALUES (?,?,?,?,?,?,?,?,?,?)");
 
         string email;
         string firstName;
@@ -72,13 +72,14 @@ int main(){
         cout << "Enter your phone number: " << endl;
         cin >> phone;
         prep_stmt->setInt(4, phone);
+        cin.ignore();
 
         cout << "Enter your Street Address: " << endl;
-        cin >> streetAddress;
+        getline(cin, streetAddress);
         prep_stmt->setString(5, streetAddress);
 
         cout << "Enter your city: " << endl;
-        cin >> city;
+        getline(cin, city);
         prep_stmt->setString(6, city);
 
         cout << "Enter your state: " << endl;
@@ -114,10 +115,10 @@ int main(){
             try
             {
                 // driver = mysql:get_mysql_driver_instance();
-            driver = get_driver_instance();
+            _driver = get_driver_instance();
 
             // con = driver->connect()
-            con = driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+            con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
             con->setSchema("my_jamesm12_juul");
 
@@ -125,20 +126,30 @@ int main(){
 
                 string email;
                 cout << "Enter your email to view user information: ";
-                cin >> email
+                cin >> email;
 
                            prep_stmt->setString(1, email);
 
-                cout << "Finding Your Infor Now!: " << endl;
+                cout << "Finding Your Information Now!: " << endl;
 
                 res = prep_stmt->executeQuery();
+                //res = stmt->executeQuery("SELECT id, label FROM test ORDER BY id ASC");
+
+                while (res->next()) {
+            cout << "Email: " << res->getString("email")  << " " << res->getString("FirstName")  << " " << res->getString("LastName") << endl;
+            cout << "Address: " << res->getString("StreetAddress")  << " " << res->getString("City")  << " " << res->getString("State") << " " << res->getInt("Zip") << endl;
+            cout << "Phone Number: " << res->getInt("Phone");
+
+            
+        }
 
                 delete res;
                 delete prep_stmt;
             }
             catch (sql::SQLException &r)
             {
-                cout << "SQLException: " << e.what() << endl;
+                //cout << "SQLException: " << e.what() << endl;
+                cout << "Possible Error.";
             }
         }
 
@@ -150,10 +161,10 @@ int main(){
             {
 
                 // driver = mysql:get_mysql_driver_instance();
-            driver = get_driver_instance();
+            _driver = get_driver_instance();
 
             // con = driver->connect()
-            con = driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+            con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
             con->setSchema("my_jamesm12_juul");
 
@@ -185,13 +196,14 @@ int main(){
                 cout << "Enter new Phone Number: ";
                 cin >> phone;
                 prep_stmt->setInt(3, phone);
+                cin.ignore();
 
                 cout << "Enter new Street Address: ";
-                cin >> streetAddress;
+                getline(cin, streetAddress);
                 prep_stmt->setString(4, streetAddress);
 
                 cout << "Enter new City: ";
-                cin >> city;
+                getline(cin, city);
                 prep_stmt->setString(5, city);
 
                 cout << "Enter new State Name: ";
@@ -202,8 +214,8 @@ int main(){
                 cin >> zip;
                 prep_stmt->setInt(7, zip);
 
-                prep_stmt->SetString(8, salt);
-                prep_stmt->SetString(9, hash);
+                prep_stmt->setString(8, salt);
+                prep_stmt->setString(9, hash);
 
                 cout << "User updated." << endl;
 
@@ -212,7 +224,8 @@ int main(){
             }
             catch (sql::SQLException &e)
             {
-                cout << "SQL Exception" << e.what << endl;
+                //cout << "SQL Exception" << e.what() << endl;
+                cout << "Possible Error.";
             }
         }
 
@@ -224,10 +237,10 @@ int main(){
             {
 
                 // driver = mysql:get_mysql_driver_instance();
-            driver = get_driver_instance();
+            _driver = get_driver_instance();
 
             // con = driver->connect()
-            con = driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+            con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
             con->setSchema("my_jamesm12_juul");
 
