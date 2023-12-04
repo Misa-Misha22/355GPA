@@ -44,7 +44,7 @@ void insertProfile()
             con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
             con->setSchema("my_jamesm12_juul");
-        prep_stmt = con->prepareStatement("INSERT INTO Profile(Name, AcctID) VALUES (?,?)");
+        prep_stmt = con->prepareStatement("INSERT INTO profile(Name, AcctID) VALUES (?,?)");
             
         prep_stmt->setString(1, name);
         prep_stmt->setInt(2, acctID);
@@ -72,7 +72,7 @@ void updateProfile()
     int acctID;
 
     // prompt user for id being updated
-    cout << "PLEASE ENTER ID:" <<endl;
+    cout << "PLEASE ENTER ID: " <<endl;
     cin  >> profileId;
     cin.ignore();
 
@@ -86,7 +86,7 @@ void updateProfile()
 
     if (userInput == "Name")
     {
-        cout << "ENTER NEW NAME:" << endl;
+        cout << "ENTER NEW NAME: " << endl;
         cin >> newName;
         cin.ignore();
 
@@ -100,7 +100,7 @@ void updateProfile()
 
             con->setSchema("my_jamesm12_juul");
         // then insert into the table 
-        prep_stmt = con->prepareStatement("UPDATE Profile SET Name = ? WHERE id = ?");
+        prep_stmt = con->prepareStatement("UPDATE profile SET Name = ? WHERE id = ?");
         
         prep_stmt->setString(1, newName);
         prep_stmt->setInt(2, profileId);
@@ -119,7 +119,7 @@ void updateProfile()
     }
     else if (userInput == "AcctID")
     {
-        cout << "ENTER NEW AcctID that exists in the USER_ACCOUNT Table under ID:" << endl;
+        cout << "ENTER NEW AcctID that exists in the USER_ACCOUNT Table under ID: " << endl;
         cin >> acctID;
         cin.ignore(); // Ignore newline character from previous input
 
@@ -132,7 +132,7 @@ void updateProfile()
             con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
             con->setSchema("my_jamesm12_juul");
-        prep_stmt = con->prepareStatement("UPDATE Profile SET AcctID = ? FROM Profile INNER JOIN user_account on Profile.AcctID = user_account.id AND Profile.id = ?");
+        prep_stmt = con->prepareStatement("UPDATE profile SET AcctID = ? FROM Profile INNER JOIN user_account on Profile.AcctID = user_account.id AND Profile.id = ?");
         
         prep_stmt->setInt(1, acctID);
         prep_stmt->setInt(2, profileId);
@@ -172,7 +172,7 @@ void deleteProfile()
         con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
         con->setSchema("my_jamesm12_juul");
-    prep_stmt = con->prepareStatement("DELETE FROM Profile WHERE id = ?");
+    prep_stmt = con->prepareStatement("DELETE FROM profile WHERE id = ?");
     prep_stmt->setInt(1, profileID);
     
     int rowsDeleted = prep_stmt->executeUpdate();
@@ -215,7 +215,7 @@ void readProfile()
         con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
 
         con->setSchema("my_jamesm12_juul");
-    prep_stmt = con->prepareStatement("SELECT * FROM Profile WHERE id = ?");
+    prep_stmt = con->prepareStatement("SELECT * FROM profile WHERE id = ?");
     
     prep_stmt->setInt(1, profileID);
     
