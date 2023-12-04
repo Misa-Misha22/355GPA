@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Demo",
+            "database": "Juul",
+            "username": "jamesm12",
+            "password": "3tffz5m!1"
+        }
+    ],
+    "files.associations": {
+        "iostream": "cpp"
+    }
+}
