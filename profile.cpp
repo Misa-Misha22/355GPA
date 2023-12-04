@@ -247,7 +247,6 @@ void readProfile()
 
 int main()
 {
-
     string userInput;
 
     // prompt the user for what they want to do
@@ -257,8 +256,10 @@ int main()
     cout << "Update" << endl;
     cout << "Delete" << endl;
 
+    cout << endl;
     cin >> userInput;
 
+    /*
     while ((userInput != "Insert") || (userInput != "Read") || (userInput != "Update") || (userInput != "Delete"))
     {
         cout << "CASE SENSITIVE PLEASE TYPE OPTION EXACTLY" << endl;
@@ -271,7 +272,7 @@ int main()
         // prompt user again
         cin >> userInput; 
     }
-
+    */
 
     if (userInput == "Insert")
     {
