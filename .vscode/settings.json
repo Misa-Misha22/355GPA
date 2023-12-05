@@ -1,5 +1,27 @@
 {
+<<<<<<< HEAD
     "files.associations": {
         "iostream": "cpp"
+=======
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Demo",
+            "database": "Juul",
+            "username": "jamesm12",
+            "password": "3tffz5m!1"
+        }
+    ],
+    "files.associations": {
+        "iostream": "cpp",
+        "ostream": "cpp"
+>>>>>>> 8bb8adf18463c54571a15f1aa91d26ecdd0106d6
     }
 }
