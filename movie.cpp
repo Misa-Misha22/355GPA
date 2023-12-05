@@ -27,6 +27,8 @@ void insertMovie(sql::Connection *con) {
     int yearReleased;
     int runtime;
 
+    prep_stmt = con->prepareStatement("INSERT INTO MOVIE(name, yearReleased, runtime, description) VALUES (?,?,?,?)");
+
     cout << "Enter movie title:";
     getline(cin, name);
     prep_stmt->setString(1, name);
@@ -45,13 +47,14 @@ void insertMovie(sql::Connection *con) {
     cin.ignore(); // Ignore newline character from previous input
 
     cout << "Enter movie description: ";
+
     getline(cin, description);
     prep_stmt->setString(4, description);
     //cin >> description;
     cin.ignore(); // Ignore newline character from previous input
 
     // then insert into the table 
-    prep_stmt = con->prepareStatement("INSERT INTO MOVIE(name, yearReleased, runtime, description) VALUES (?,?,?,?)");
+   // prep_stmt = con->prepareStatement("INSERT INTO MOVIE(name, yearReleased, runtime, description) VALUES (?,?,?,?)");
     
     /*prep_stmt->setString(1, name);
     prep_stmt->setInt(2, yearReleased);
@@ -98,13 +101,16 @@ void updateMovie(sql::Connection *con){
     if (userInput == "Name")
     {
         cout << "ENTER NEW MOVIE NAME:" << endl;
+
+        prep_stmt = con->prepareStatement("UPDATE MOVIE SET Name = ? WHERE id = ?");
+
         getline(cin, newName);
         prep_stmt->setString(1, newName);
         //cin >> newName;
         cin.ignore(); // Ignore newline character from previous input
 
         // then insert into the table 
-        prep_stmt = con->prepareStatement("UPDATE MOVIE SET Name = ? WHERE id = ?");
+       // prep_stmt = con->prepareStatement("UPDATE MOVIE SET Name = ? WHERE id = ?");
         
         /*
         prep_stmt->setString(1, newName);
@@ -122,13 +128,16 @@ void updateMovie(sql::Connection *con){
     else if (userInput == "Description")
     {
         cout << "ENTER NEW MOVIE DESCRIPTION:" << endl;
+
+        prep_stmt = con->prepareStatement("UPDATE MOVIE SET Description = ? WHERE id = ?");
+
         getline(cin, newDscrip);
         prep_stmt->setString(1, newDscrip);
         //cin >> newDscrip;
         cin.ignore(); // Ignore newline character from previous input
 
         // then insert into the table 
-        prep_stmt = con->prepareStatement("UPDATE MOVIE SET Description = ? WHERE id = ?");
+       // prep_stmt = con->prepareStatement("UPDATE MOVIE SET Description = ? WHERE id = ?");
         
         /*
         prep_stmt->setString(1, newDscrip);
@@ -145,12 +154,15 @@ void updateMovie(sql::Connection *con){
     else if (userInput == "YearReleased")
     {
         cout << "ENTER NEW MOVIE YEAR RELEASED:" << endl;
+
+        prep_stmt = con->prepareStatement("UPDATE MOVIE SET YearReleased = ? WHERE id = ?");
+
         cin >> newYear;
         prep_stmt->setInt(1, newYear);
         cin.ignore(); // Ignore newline character from previous input
 
         // then insert into the table 
-        prep_stmt = con->prepareStatement("UPDATE MOVIE SET YearReleased = ? WHERE id = ?");
+        //prep_stmt = con->prepareStatement("UPDATE MOVIE SET YearReleased = ? WHERE id = ?");
         
         /*
         prep_stmt->setInt(1, newYear);
@@ -167,12 +179,15 @@ void updateMovie(sql::Connection *con){
     else if (userInput == "Runtime")
     {
         cout << "ENTER NEW MOVIE RUNTIME:" << endl;
+
+        prep_stmt = con->prepareStatement("UPDATE MOVIE SET Runtime = ? WHERE id = ?");
+
         cin >> newRuntime;
         prep_stmt->setInt(1, newRuntime);
         cin.ignore(); // Ignore newline character from previous input
 
         // then insert into the table 
-        prep_stmt = con->prepareStatement("UPDATE MOVIE SET Runtime = ? WHERE id = ?");
+       // prep_stmt = con->prepareStatement("UPDATE MOVIE SET Runtime = ? WHERE id = ?");
         
         /*
         prep_stmt->setInt(1, newRuntime);
@@ -195,12 +210,16 @@ void deleteMovie(sql::Connection *con){
     int movieId;
 
     cout << "ENTER ID OF MOVIE TO DELETE: " << endl;
+
+    prep_stmt = con->prepareStatement("DELETE FROM MOVIE WHERE id = ?");
+        
+
     cin >> movieId;
     prep_stmt->setInt(1, movieId);
     cin.ignore(); // Ignore newline character from previous input
 
         // then insert into the table 
-        prep_stmt = con->prepareStatement("DELETE FROM MOVIE WHERE id = ?");
+        //prep_stmt = con->prepareStatement("DELETE FROM MOVIE WHERE id = ?");
         
         int rowsDeleted = prep_stmt->executeUpdate();
 
@@ -225,12 +244,15 @@ void readMovie(sql::Connection *con){
     int movieId;
 
     cout << "ENTER MOVIE ID: " << endl;
+
+    prep_stmt = con->prepareStatement("SELECT * FROM MOVIE WHERE id = ?");
+
     cin >> movieId;
     prep_stmt->setInt(1, movieId);
     cin.ignore(); // Ignore newline character from previous input
 
         // then insert into the table 
-        prep_stmt = con->prepareStatement("SELECT * FROM MOVIE WHERE id = ?");
+        //prep_stmt = con->prepareStatement("SELECT * FROM MOVIE WHERE id = ?");
         
         //prep_stmt->setInt(1, movieId);
         
@@ -268,16 +290,20 @@ int main()
     string password = "3tffz5m!1";
     string host = "tcp://deltona.birdnest.org:3306";
     string database = "my_jamesm12_juul";
+     _driver = get_driver_instance();
+        con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+       // prep_stmt = con->prepareStatement("USE " + database);
+        con->setSchema("my_jamesm12_juul");
 
 
     try {
 
         // Standard connection protocol
        // driver = sql::mysql::get_mysql_driver_instance();
-        _driver = get_driver_instance();
-        con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
+        //_driver = get_driver_instance();
+        //con = _driver->connect("tcp://deltona.birdnest.org:3306", "my.jamesm12", "3tffz5m!1");
        // prep_stmt = con->prepareStatement("USE " + database);
-        con->setSchema("my_jamesm12_juul");
+       // con->setSchema("my_jamesm12_juul");
         // allows user to input data
        // prep_stmt = con->createStatement();
 
@@ -350,5 +376,5 @@ int main()
         //cin >> userInput; 
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
