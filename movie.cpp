@@ -76,11 +76,10 @@ void updateMovie(sql::Connection *con){
     //create var for user input
     string userInput;
     string newName;
-    string newDscrip;
-    int movieId;
-    int newYear;
-    int newRuntime;
-
+    string newDscrip
+    string movieId;
+    string newYear;
+    string newRuntime;
     // prompt user for movie being updated
     cout << "PLEASE ENTER ID:" <<endl;
     cin  >> movieId;
