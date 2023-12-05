@@ -61,8 +61,7 @@ void updateMovie(){
     //create var for user input
     string userInput;
     string newName;
-    string newDscrip
-    string movieId;
+    string movieID;
     string newYear;
     string newRuntime;
     // prompt user for movie being updated
